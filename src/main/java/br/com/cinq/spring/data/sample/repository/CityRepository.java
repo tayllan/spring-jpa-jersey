@@ -13,4 +13,7 @@ public interface CityRepository extends CrudRepository<City, Integer> {
     @Query("SELECT city FROM City city WHERE city.country.id = :#{#country.id}")
     List<City> findByCountry(@Param("country")Country country);
 
+    @Query("SELECT city FROM City city WHERE city.name LIKE %:name%")
+    List<City> findLikeName(@Param("name") String name);
+
 }

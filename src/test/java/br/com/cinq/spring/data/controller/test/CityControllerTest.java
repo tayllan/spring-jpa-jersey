@@ -1,10 +1,12 @@
 package br.com.cinq.spring.data.controller.test;
 
 import java.io.IOException;
+import java.util.List;
 
 import br.com.cinq.spring.data.sample.controller.CityController;
 import br.com.cinq.spring.data.sample.repository.CountryRepository;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -29,10 +31,12 @@ public class CityControllerTest {
 
     @Inject
     private CountryRepository countryRepository;
-;
+
+    private CityController controller;
+
     private static final String json = "[\n" +
             "    {\n" +
-            "        \"id\": 86,\n" +
+            "        \"id\": 100,\n" +
             "        \"name\": \"Buenos Aires\",\n" +
             "        \"country\": {\n" +
             "            \"id\": 4,\n" +
@@ -40,7 +44,7 @@ public class CityControllerTest {
             "        }\n" +
             "    },\n" +
             "    {\n" +
-            "        \"id\": 87,\n" +
+            "        \"id\": 101,\n" +
             "        \"name\": \"Lima\",\n" +
             "        \"country\":{\n" +
             "            \"id\": 5,\n" +
@@ -48,7 +52,7 @@ public class CityControllerTest {
             "        }\n" +
             "    },\n" +
             "    {\n" +
-            "        \"id\": 88,\n" +
+            "        \"id\": 102,\n" +
             "        \"name\": \"Cusco\",\n" +
             "        \"country\":{\n" +
             "            \"id\": 5,\n" +
@@ -57,9 +61,13 @@ public class CityControllerTest {
             "    }\n" +
             "]";
 
+    @Before
+    public void initializeController() {
+        controller = new CityController(cityRepository);
+    }
+
     @Test
-    public void testGetCitiesFromJSON() {
-        CityController controller = new CityController(cityRepository);
+    public void testGetCitiesFromInvalidJSON() {
         try {
             City[] notUsedCities = controller.getCitiesFromJSON("");
             Assert.assertTrue(false);
@@ -67,25 +75,31 @@ public class CityControllerTest {
             // Empty strings are not valid JSON.
             Assert.assertTrue(true);
         }
+    }
 
+    @Test
+    public void testGetCitiesFromEmptyJSON() {
         try {
             City[] emptyCities = controller.getCitiesFromJSON("[]");
             Assert.assertEquals(0, emptyCities.length);
         } catch (Exception ex) {
             Assert.assertTrue(ex.getMessage(), false);
         }
+    }
 
+    @Test
+    public void testGetCitiesFromJSON() {
         try {
             City[] cities = controller.getCitiesFromJSON(json);
             Assert.assertEquals(3, cities.length);
 
-            Assert.assertEquals(86, cities[0].getId().intValue());
+            Assert.assertEquals(100, cities[0].getId().intValue());
             Assert.assertEquals(4, cities[0].getCountry().getId().intValue());
 
-            Assert.assertEquals(87, cities[1].getId().intValue());
+            Assert.assertEquals(101, cities[1].getId().intValue());
             Assert.assertEquals(5, cities[1].getCountry().getId().intValue());
 
-            Assert.assertEquals(88, cities[2].getId().intValue());
+            Assert.assertEquals(102, cities[2].getId().intValue());
             Assert.assertEquals(5, cities[2].getCountry().getId().intValue());
         } catch (Exception ex) {
             Assert.assertTrue(ex.getMessage(), false);
@@ -106,8 +120,8 @@ public class CityControllerTest {
                 1,
                 countryRepository.findLikeName(cities[1].getCountry().getName()).size()
         );
-        Assert.assertEquals("Argentina", countryRepository.findOne(4).getName());
-        Assert.assertEquals("Lima", cityRepository.findOne(87).getName());
+        Assert.assertEquals(1, countryRepository.findLikeName("Argentina").size());
+        Assert.assertEquals(1, cityRepository.findLikeName("Lima").size());
     }
 
 }
