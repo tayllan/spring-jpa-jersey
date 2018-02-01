@@ -7,6 +7,7 @@ spring:
         max-wait: 1000
         max-active: 50
         test-on-borrow: true
+        validation-query: SELECT 1
     jpa:
         database-platform: org.hibernate.dialect.H2Dialect
         database: H2
