@@ -1,23 +1,44 @@
 <!DOCTYPE html>
-<!-- ngApp="app" will cause the "app.js" to be loaded as the application bootstrap
-ng-strict-di means that the application will fail to invoke functions which do not use explicit function annotation (and
-are thus unsuitable for minification), as described in the Dependency Injection guide, and useful debugging info will
-assist in tracking down the root of these bugs. -->
-<html data-ng-app="app" ng-strict-di>
-<head>
-<base href='/' />
-<meta charset="utf-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
-<title data-ng-bind="title"></title>
-<style>
-</style>
+<html>
+	<head>
+		<base href='/' />
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
+		<title>Spring JPA Jersey</title>
 
+		<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+	</head>
+	<body>
+		<form method="post" action="/upload" enctype="multipart/form-data" class="pure-form" style="text-align: center;">
+			<h2>Chose a file with the JSON representation of cities:</h2>
 
-</head>
-<body>
-	Hello World
-</body>
+			<h4>Example:</h4>
+			<textarea disabled="disabled" rows="10" cols="30"></textarea>
 
+			<br><br>
+
+			<input type="file" name="file" accept=".json">
+
+			<br><br>
+
+			<button type="submit" class="button-xlarge pure-button pure-button-primary">
+				Save cities
+			</button>
+		</form>
+
+		<script>
+			var placeholderJSON = '[\n' +
+					'\t{\n' +
+						'\t\t"id":105,\n' +
+						'\t\t"name":"Blumenau",\n' +
+						'\t\t"country":{\n' +
+							'\t\t\t"id":5,\n' +
+							'\t\t\t"name":"Brazil"\n' +
+						'\t\t}\n' +
+					'\t}\n' +
+				']';
+				document.querySelector('textarea').placeholder = placeholderJSON;
+		</script>
+	</body>
 </html>

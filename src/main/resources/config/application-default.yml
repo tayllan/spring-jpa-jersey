@@ -11,5 +11,7 @@ spring:
     jpa:
         database-platform: org.hibernate.dialect.H2Dialect
         database: H2
-
-
+    http:
+        multipart:
+            max-file-size: 2MB
+            max-request-size: 10MB
